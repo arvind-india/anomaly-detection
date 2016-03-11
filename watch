@@ -1,0 +1,50 @@
+{
+  "trigger": {
+    "schedule": {
+      "interval": "20s"
+    }
+  },
+  "input": {
+    "search": {
+      "request": {
+        "indices": ["logstash-*"],
+        "body": {
+          "query": {
+            "filtered": {
+              "query": {
+                "query_string": {
+                  "query": "@status:500",
+                  "analyze_wildcard": true
+                }
+              },
+              "filter": {
+                "bool": {
+                  "must": [{
+                    "range": {
+                      "@timestamp": {
+                        "gte": "now-10s"
+                      }
+                    }
+                  }],
+                  "must_not": []
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "condition": {
+    "compare": {
+      "ctx.payload.hits.total": { "gt": 2 }
+    }
+  },
+  "actions": {
+    "log": {
+      "logging": {
+        "text": "There where {{ctx.payload.hits.total}} HTTP 500 errors at {{ctx.execution_time}}"
+      }
+    }
+  }
+}
