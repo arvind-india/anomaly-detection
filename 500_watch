@@ -22,7 +22,7 @@
                   "must": [{
                     "range": {
                       "@timestamp": {
-                        "gte": "now-10s"
+                        "gte": "now-20s"
                       }
                     }
                   }],
@@ -37,13 +37,15 @@
   },
   "condition": {
     "compare": {
-      "ctx.payload.hits.total": { "gt": 2 }
+      "ctx.payload.hits.total": { "gt": 1 }
     }
   },
   "actions": {
-    "log": {
-      "logging": {
-        "text": "There where {{ctx.payload.hits.total}} HTTP 500 errors at {{ctx.execution_time}}"
+    "send_email": {
+      "email": {
+        "to": "your@email.com",
+        "subject": "Multiple 500 errors",
+        "body": "The /healt-check endpoint receive {{ctx.payload.hits.total}} HTTP 500 consecutively."
       }
     }
   }
