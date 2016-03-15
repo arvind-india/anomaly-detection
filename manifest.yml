@@ -1,0 +1,4 @@
+applications:
+- name: anomaly-detection
+  buildpack: ruby_buildpack
+  command: bundle exec rackup config.ru -p $PORT
