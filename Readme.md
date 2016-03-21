@@ -1,4 +1,4 @@
-# ELK stack in Bluemix
+# Description
 I use Cuba to create an application with an endpoint */health-check* that returns
 an *HTTP 200* in the *80%* of cases and *HTTP 500* in the other *20%* of cases.
 Also there is a button in the index page that **alter** the **/health-check** endpoint
@@ -9,7 +9,7 @@ With the ELK stack and [Watcher](https://www.elastic.co/guide/en/watcher/current
 I detect anomalies in the application (slow responses or HTTP 500 consecutive)
 and send an email if any of the anomalies happen.
 
-## Installation
+## Install ELK stack and Watcher in localhost.
 
 #### Elasticsearch
 Is [installed](https://www.elastic.co/downloads/elasticsearch) like a service
@@ -50,7 +50,7 @@ to do that you need to find elasticsearch.yml file
 ([here](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-dir-layout.html#default-paths) you can see where is),
 [here](https://www.elastic.co/guide/en/watcher/current/email-services.html) you can find details about email configuration.
 
-## Running the stack
+## Running the stack in localhost
 If you use all the files in this repo, you'll have all the services running in
 your localhost.
 
@@ -95,3 +95,7 @@ curl -X PUT 'http://localhost:9200/_watcher/watch/500_detection' -d @500_watch
 I create a new index in Elasticsearchm, with the name *500_detection*,
 you can choose any one you want, with **-d @** flag I’m telling to curl read the
 watch file to load the settings.
+
+# ELK and Watcher in Bluemix
+I use this example application to test all the stack in Bluemix.
+For this I modified a [Docker image](https://github.com/lcostantini/elk-docker).
